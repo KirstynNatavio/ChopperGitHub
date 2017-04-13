@@ -1,0 +1,401 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.3/jquery.mobile-1.4.3.min.css" />
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.3/jquery.mobile-1.4.3.min.js"></script>
+    <script src='https://cdn.firebase.com/js/client/1.0.15/firebase.js'></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+    <!-- <link rel='stylesheet' type='text/css' href='/resources/tutorial/css/example.css'/> -->
+  </head>
+  <body>
+
+    <div data-role = "page" id="loginpage">
+      <div id='contactsDiv' data-role="main" style = "text-align: center; width: 300px; vertical-align: middle; position: absolute; text-align: center; display: inline-block; left: 500px">
+        <img src="chopperlogo.png">
+        <h2><font color = "00D091">Log In</font></h2>
+        <form>
+          <label for="userLogin"><font color = "black">Username:</font></label>
+          <input type="text" data-clear-btn="true" id="userLogin" placeholder="Username" value = "">
+          <p id="logIn"></p>
+        </form>
+        <label for="password"><font color = "black">Password:</font></label>
+        <input type="password" data-clear-btn="true" name="password" id="userPassword" value="" autocomplete="off" placeholder = "Password">
+        <h2><font color = "7F00FF">New User? Sign Up!</font></h2>
+        <form>
+          <label for="newUser"><font color = "black">New Username:</font></label>
+          <input type="text" data-clear-btn="true" id="newUser" placeholder="New Username" value = "">
+          <p id="userAdded"></p>
+        </form>
+        <label for="password"><font color = "black">Password:</font></label>
+        <input type="password" data-clear-btn = "true" name="newUserPassword" id="newUserPassword" value="" autocomplete="off" placeholder="New Password">
+      </div>
+    </div>
+
+  <div data-role = "page" id = "HomePage">
+  <!--PANEL STARTS--> 
+    <div data-role="panel" id="myPanel" data-position="right" data-display="overlay">
+        <h1>Add New Alert</h1>
+      <div data-role = "main">
+      <!--Add New Location-->
+        <form>
+          <label for="text-1"></label>
+          <input type="text" data-clear-btn="true" id="newlocation" placeholder="Input Location Name" value = "">
+        </form>
+        <form>
+          <label for="text-1"></label>
+          <input type="text" data-clear-btn="true" id="newaddress" placeholder="Input Address" value = "">
+        </form>
+      <!--Choose Contacts-->
+        <div>
+          <h2>Add Contacts</h2>
+          <form>
+            <label for="text-1"></label>
+            <input type="text" data-clear-btn="true" id="contactName" placeholder="New Contact Name" value = "">
+          </form>
+          <div data-role = "controlgroup">
+            <a href = "#" class = "ui-btn ui-corner-all ui-icon-plus ui-btn-icon-left" id="addcontact">Update Contact List</a>
+          </div>
+          <fieldset data-role="controlgroup" id="panelContactList">
+          </fieldset>
+        </div>
+
+          <!-- <div>
+            <form>
+              <fieldset data-role="controlgroup" id="panelContactList">
+                  <div data-role = "controlgroup">
+                    <a href = "#" class = "ui-btn ui-corner-all ui-icon-plus ui-btn-icon-left" id="addcontact">Add to List</a>
+                  </div>
+              </fieldset>
+          </form>
+        </div> -->
+
+      <!--Add New Location Button-->
+        <div data-role = "controlgroup">
+          <a href = "#" class = "ui-btn ui-corner-all ui-icon-plus ui-btn-icon-left" id="addNewLocation">Add New Alert</a>
+        </div>
+
+
+      </div><!--DATA-ROLE = "MAIN" ENDS-->
+    </div><!--PANEL ENDS-->
+
+<!--  EDIT  -->
+    <div data-role="panel" id="Edit" data-position="right" data-display="overlay">
+        <h1>Edit Alert</h1>
+      <div data-role = "main">
+      <!--Add New Location-->
+        <form>
+          <label for="text-1"></label>
+          <input type="text" data-clear-btn="true" id="editlocation" placeholder="" value = "">
+        </form>
+        <form>
+          <label for="text-1"></label>
+          <input type="text" data-clear-btn="true" id="editaddress" placeholder="" value = "">
+        </form>
+      <!--Choose Contacts-->
+        <div>
+          <h2>Add Contacts</h2>
+          <form>
+            <label for="text-1"></label>
+            <input type="text" data-clear-btn="true" id="contactName" placeholder="New Contact Name" value = "">
+          </form>
+          <div data-role = "controlgroup">
+            <a href = "#" class = "ui-btn ui-corner-all ui-icon-plus ui-btn-icon-left" id="addcontact">Update Contact List</a>
+          </div>
+          <fieldset data-role="controlgroup" id="panelContactList">
+          </fieldset>
+        </div>
+      <!--Add New Location Button-->
+        <div data-role = "controlgroup">
+          <a href = "#" class = "ui-btn ui-corner-all ui-icon-plus ui-btn-icon-left" id="addNewLocation">Save changes</a>
+        </div>
+      </div><!--DATA-ROLE = "MAIN" ENDS-->
+    </div><!--Edit ends-->
+
+
+    <!--HOME PAGE STARTS-->
+    <div data-role = "header" >
+      <img src="chopperlogo.png" width="175" height="75" style="margin:5px 0px 5px 15px;">
+        <a href="#myPanel" data-iconpos="notext" data-role = "button" data-icon = "plus" class="ui-btn-right" id="New" style="width:50px;height:50px;">New</a>
+    </div>
+
+
+    <div data-role = "main" class = "ui-content">
+    <div id="homepagePlacesList">
+
+     <!-- <a role="button" href="#Edit" class="ui-shadow ui-btn ui-corner-all ui-btn-inline" data-transition="flip" style="width:300px;height:50px; text-align:left;">
+      <div data-role="fieldcontain">
+        Appnexus
+        <fieldset>
+          <label for="checkbox-based-flipswitch"></label>
+          <input type="checkbox" name = "flip-checkbox-1" id="flip-checkbox-1" data-role="flipswitch" position = "absolute">
+        </fieldset>
+      </div>
+      </a> -->
+
+      <ul data-role="listview" id="placesList">
+        <!-- <li>
+          <fieldset>
+            <div data-role="fieldcontain">
+              <label for="checkbox-based-flipswitch">
+                <font face="verdana" color="green" size = "5">
+                  appnexus
+                </font>
+              </label>
+              <input type="checkbox" name = "flip-checkbox-2" id="'+name+'" data-role="flipswitch" value="1">
+              <a role="button" href="#Edit" id="appnexus" class="appnexus" class="ui-shadow ui-btn ui-corner-all ui-btn-inline">
+                edit
+              </a>
+            </div>
+          </fieldset>
+        </li> -->
+      </ul>
+
+          </div>
+      <a role="button" href="#notification" class="ui-shadow ui-btn ui-corner-all ui-btn-inline" data-transition="flip" data-direction="reverse">Notification button</a> 
+      <br><a role="button" href="#loginpage" class="ui-shadow ui-btn ui-corner-all ui-btn-inline" data-transition="slide" onclick = "logOut()">Log Out</a></br>
+    </div>
+  </div><!--HOME PAGE ENDS-->
+
+  <!--Notification-->
+  <div data-role = "page" data-dialog = "true" id = "notification">
+    <div data-role = "header">
+      <h1>Notification</h1>
+    </div>
+    <div data-role = "main" class = "ui-content">
+      Call mom
+    </div>
+  </div>
+
+
+
+    <!-- 
+    <div data-role = "page" id="loginpage">
+      <div id='contactsDiv' data-role="main">
+        <input type='text' id='newUser' placeholder='New Username'>
+        <p id="userAdded"></p>
+        <input type='text' id='userLogin' placeholder='Username'>
+        <p id="logIn"></p>
+      </div>
+    </div>
+
+    <div id='addressDiv' data-role="page">
+        <div id="addresses">
+          <input type='name' id='nameInput' placeholder='Name of Location' value=''>
+          <input id='address' type = 'text' placeholder='Address' value=''>
+          <ul data-role="listview" id="placesList">
+          </ul>
+        </div>
+        <div id="contacts">        
+          <input type='text' id='contactName' placeholder='New Contact'>
+          <ul data-role="listview" id="contactsList" data-inset = "true">
+          </ul>
+        </div>
+    </div>
+ -->
+   <script>
+
+      //NEW USERNAME INPUT
+      var username;
+      var name;
+      var password;
+      var users = new Firebase('https://chopper.firebaseio.com/');
+      $('#newUserPassword').keypress(function (e) {
+        if (e.keyCode == 13) {
+          username = $('#newUser').val();
+          password= $('#newUserPassword').val();
+          users.child(username).once('value', function(snapshot) {
+            if (snapshot.val() === null) {
+              users.child(username);
+              users.child(username).set({id: username, password:password, contacts:[], addresses:[]});
+              $('#userAdded').innerhtml = "Your username <b>"+username+"</b> has been added.";
+              $('#newUser').val('');
+              window.location.href = 'choppereverythingupdated.html#HomePage';
+              contacts();
+              addresses();
+            } 
+            else {
+              $('#userAdded').append('This user already exists. Please go sign in.');
+            }
+          });
+        }
+      });
+
+      //SIGN IN
+      $('#userPassword').keypress(function (e) {
+        if (e.keyCode == 13) {
+          username = $('#userLogin').val();
+          password = $('#userPassword').val();
+          users.child(username).once('value', function(snapshot) {
+            if (snapshot.val() !== null) {
+              userinfo = snapshot.val();
+              if (userinfo.password == password){
+                $('#logIn').append('Login Successful, ' +userinfo.id);
+                $('#userLogin').val('');
+                window.location.href = 'choppereverythingupdated.html#HomePage';
+                contacts();
+                addresses();
+                //document.location.href = userlogin.html#mainpage;
+              }
+              else{
+                $('#logIn').append('The password is incorrect. Please try again');
+              }
+            } 
+            else {
+              $('#logIn').append('This user does not exist');
+            }
+          });
+        }
+      });
+
+      //EDIT
+    //   var database = new Firebase('https://chopper.firebaseio.com/');
+    //   //$('#edit').click(function (e){
+    //   var placeInfo;
+    // $('.edit').click( function (){ 
+    //     console.log('editing');
+    //     var id = $(this).attr('id'); 
+    //     console.log(id);
+    //     //var id = 'appnexus';
+    //     database.child(username+'/addresses/'+id).on('value', function(snapshot) {
+    //       placeInfo = snapshot.val();
+    //       console.log('in snapshot');
+    //     });
+    //     console.log(placeInfo);
+    //     $('#editlocation').attr('placeholder',id);
+    //     $('#editaddress').attr('placeholder',placeInfo.address);
+    //     // $("#panelContactList input[type=checkbox]:checked").each(function() { 
+    //     //   listOfContacts.push($(this).attr('id')); 
+    //   });
+
+      //LOCATIONS
+      var geocoder;
+      var DestinationLat;
+      var DestinationLng;
+      var map;
+      var address;
+      function initialize() {
+        geocoder = new google.maps.Geocoder();
+      }
+
+      function getCoor(){
+        // console.log("hi")
+        Addresses.on('value', function(snapshot){
+          address = snapshot.child('olivia/addresses/ny/address');
+          codeAddress(address.val());
+        });
+      }
+
+      function codeAddress() {
+        //address = document.getElementById('address').value;
+        geocoder.geocode( { 'address': address}, function(results, status) {
+          if (status == google.maps.GeocoderStatus.OK) {
+            console.log(results[0].geometry.location.lat() + ' ' + results[0].geometry.location.lng());
+          } 
+          else {
+            alert('Geocode was not successful for the following reason: ' + status);
+          }
+        });
+      }
+
+      // var sendToContact = [];
+      var Addresses = new Firebase('https://chopper.firebaseio.com/');
+      $('#addNewLocation').click(function (e) {
+          //codeAddress();
+          // console.log(DestinationLat);
+          // console.log(DestinationLng);
+          
+          // sendToContact.push('#contacts');
+          //Addresses.child(name);
+          address = $('#newaddress').val();
+          var name = $('#newlocation').val();
+          var listOfContacts = [];
+          $("#panelContactList input[type=checkbox]:checked").each(function() { 
+            listOfContacts.push($(this).attr('id')); 
+          });
+          Addresses.child(username+'/addresses/'+ name).update({name: name, address: address, contacts:listOfContacts, on:1});
+          //Addresses.push({location: location});
+          $('#newaddress').val('');
+          $('#newlocation').val('');
+          //Addresses.push({location: location});
+      });
+      Addresses.on('child_added', function(snapshot) {
+        var address = snapshot.val();
+      });
+      google.maps.event.addDomListener(window, 'load', initialize);
+
+      function addresses(){ 
+        console.log(username);
+        var usernameRef = con.child(username);
+        var addressRef = usernameRef.child("addresses");
+          addressRef.on('child_added', function(snapshot) {
+          var location = snapshot.val();
+          console.log(location.name);
+          displayAddress(location.name);
+        });
+      }
+
+      function displayAddress(name) {
+        //$('<div/>').text(text).prepend($('<em/>').text(name)).appendTo($('#contactsDiv'));
+        //$('#contactsDiv')[0].scrollTop = $('#contactsDiv')[0].scrollHeight;
+        //$("#homepagePlacesList").append('<fieldset><div data-role="fieldcontain"><label for="checkbox-based-flipswitch"><font face="verdana" color="green" size = "5">'+name+'</font></label><input type="checkbox" name = "flip-checkbox-2" id="'+name+'" data-role="flipswitch" value="1"></div></fieldset>');
+        $("#placesList").append('<li id='+name+' class="edit"><fieldset><div data-role="fieldcontain"><label for="checkbox-based-flipswitch"><font face="verdana" color="green" size = "5">'+name+'</font></label><input type="checkbox" name = "flip-checkbox-2" id="'+name+'" data-role="flipswitch" value="1"></div></fieldset></li>');
+
+        //<a href="#Edit" id="'+name+'" class="ui-shadow ui-btn ui-corner-all ui-btn-inline">edit</a>
+
+        $("#placesList").listview();
+        $("#placesList").listview("refresh");
+        $('#placesList').trigger('create');
+      }
+
+
+//CONTACTS
+    var con = new Firebase('https://chopper.firebaseio.com/');
+    var numberofContacts=0;
+      $('#addcontact').click(function (e) {
+        //if (e.keyCode === 13){
+          var name = $('#contactName').val();
+          con.child(username+'/contacts/'+name).update({name: name});
+          //contacts.child(name).set({name: name});
+
+          $('#contactName').val('');
+          //displayContact(name);
+        //}
+      });
+    function contacts(){ 
+      console.log(username);
+      var usernameRef = con.child(username);
+      var contactsRef = usernameRef.child("contacts");
+      contactsRef.on('child_added', function(snapshot) {
+        var location = snapshot.val();
+        displayContact(location.name);
+      });
+    }
+
+    function displayContact(name) {
+      //$('<div/>').text(text).prepend($('<em/>').text(name)).appendTo($('#contactsDiv'));
+      //$('#contactsDiv')[0].scrollTop = $('#contactsDiv')[0].scrollHeight;
+      //$("#contactsList").append('<li>'+name+'</li>');
+      console.log(numberofContacts);
+      $("#panelContactList").append('<input type="checkbox" name="'+name+'" id="'+name+'" value="'+name+'"></input><label for="'+name+'">'+name+'</label>');
+        //$("#panelContactList").listview();
+        //$("#panelContactList").listview("refresh");
+        $('#panelContactList').trigger('create');
+      //$("#panelContactList").append('<input type="checkbox" id="hey"></input><label for="hey">hey</label>').trigger("create");
+      //$('input[type=checkbox]').prop("checked",false).checkboxradio("refresh");
+      numberofContacts+=1;
+      console.log("this is very clearly the html I want");
+      console.log($('#panelContactList').html);
+      //$("#contactsList").listview();
+    }
+
+    function logOut(){
+        console.log("logout clicked");
+        $("#homepagePlacesList").html('');
+        $("#panelContactList").html('');
+    }
+
+
+
+    </script>
+  </body>
+</html>
